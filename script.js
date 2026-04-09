@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const data = [
   { id: "U-07", score: 94 },
   { id: "U-01", score: 88 },
@@ -50,7 +49,6 @@ function enviar() {
   const input = document.getElementById("input");
   chatBox.innerHTML += `<div class="msg">👤 ${input.value}</div>`;
   input.value = "";
-=======
 const data = [
   { id: "U-01", km: 95, dias: 60, fallas: 3 },
   { id: "U-02", km: 80, dias: 30, fallas: null }, // dato incompleto
@@ -139,5 +137,5 @@ function ver(id) {
   const u = data.find(x => x.id === id);
   const score = calcularScore(u);
   respuesta.innerHTML = explicar(u, score);
->>>>>>> 60a41569d421c3348f8bbcd4f0e1d4c61f476e0e
+}
 }
