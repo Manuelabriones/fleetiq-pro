@@ -1,49 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>FleetIQ</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetIQ · Centro de Control de Flota</title>
+
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="topbar">
-  <h2>FleetIQ <span>/ Centro de control</span></h2>
-  <div class="live">🟢 EN VIVO</div>
-</header>
+<div class="app">
 
-<div class="container">
-
-  <!-- KPIs -->
-  <div class="kpis">
-    <div class="card">32<br><span>Unidades</span></div>
-    <div class="card green">24<br><span>Operativas</span></div>
-    <div class="card yellow">5<br><span>Revisión</span></div>
-    <div class="card red">3<br><span>Urgente</span></div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      FleetIQ
+      <span class="logo-sub">/ Centro de control</span>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><div class="live-dot"></div> EN VIVO</div>
+      <span id="clock" class="mono"></span>
+      <span>32 unidades activas</span>
+    </div>
   </div>
 
-  <!-- TABLA -->
-  <div class="table-box">
-    <h3>Ranking de riesgo</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Unidad</th>
-          <th>Riesgo</th>
-          <th>Score</th>
-          <th>Acción</th>
-        </tr>
-      </thead>
-      <tbody id="tabla"></tbody>
-    </table>
+  <div class="main">
+    <!-- LEFT -->
+    <div class="left">
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-val">32</div>
+          <div class="kpi-label">Unidades totales</div>
+          <div class="kpi-delta delta-up">↑ 2 vs ayer</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val green">24</div>
+          <div class="kpi-label">Operativas · riesgo bajo</div>
+          <div class="kpi-delta delta-up">75% disponibilidad</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val amber">5</div>
+          <div class="kpi-label">Requieren revisión</div>
+          <div class="kpi-delta delta-down">↑ 2 vs ayer</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val red">3</div>
+          <div class="kpi-label">Intervención urgente</div>
+          <div class="kpi-delta delta-down">↑ 1 vs ayer</div>
+        </div>
+      </div>
+
+      <!-- AI BRIEF -->
+      <div class="ai-brief">
+        <div class="ai-brief-header">
+          <div class="ai-icon">✦</div>
+          <div>
+            <div class="ai-brief-title">ANALISTA IA · Resumen del día</div>
+            <div class="ai-brief-sub" id="brief-time"></div>
+          </div>
+          <button class="refresh-btn" onclick="generateBrief()">↻</button>
+        </div>
+        <div class="ai-text" id="briefText">Cargando análisis...</div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="card">
+        <div class="section-row">
+          <div class="card-title">Ranking de riesgo · Flota</div>
+        </div>
+
+        <table class="fleet-table">
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Riesgo</th>
+              <th>Score</th>
+              <th>Km restantes</th>
+              <th>Último servicio</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="fleetBody"></tbody>
+        </table>
+      </div>
+
+      <!-- AGENDA -->
+      <div class="card">
+        <div class="card-title">Agenda sugerida</div>
+        <div id="agendaList"></div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT CHAT -->
+    <div class="right">
+      <div class="chat-header">
+        <div class="chat-avatar">✦</div>
+        <div>
+          <div class="chat-name">Analista FleetIQ</div>
+          <div class="chat-status">● Activo</div>
+        </div>
+      </div>
+
+      <div id="chatMessages" class="chat-messages"></div>
+
+      <div class="chat-input-area">
+        <input id="chatInput" placeholder="Pregunta..." />
+        <button onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+
   </div>
-
-</div>
-
-<!-- CHAT -->
-<div class="chat">
-  <h3>🤖 Analista IA</h3>
-  <div id="chatBox"></div>
 </div>
 
 <script src="script.js"></script>

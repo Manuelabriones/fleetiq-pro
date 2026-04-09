@@ -1,65 +1,79 @@
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0b1220;
-  color: white;
+:root {
+  --bg: #0a0c0f;
+  --surface: #111318;
+  --surface2: #181c22;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8eaf0;
+  --muted: #6b7280;
+  --green: #22c55e;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --accent: #7c6fff;
 }
 
-/* TOP */
+body {
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app { display: flex; flex-direction: column; }
+
 .topbar {
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  background: #0f172a;
+  background: var(--surface);
 }
 
-/* KPIs */
-.kpis {
+.logo { display: flex; gap: 8px; align-items: center; }
+.logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+.logo-sub { color: var(--muted); font-size: 12px; }
+
+.main { display: flex; }
+
+.left { flex: 3; padding: 20px; }
+.right { flex: 1; background: var(--surface); padding: 20px; }
+
+.kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  padding: 20px;
+  gap: 10px;
 }
+
+.kpi {
+  background: var(--surface2);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.kpi-val { font-size: 22px; }
+
+.green { color: var(--green); }
+.amber { color: var(--amber); }
+.red { color: var(--red); }
 
 .card {
-  background: #111827;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.green { border-left: 4px solid #22c55e; }
-.yellow { border-left: 4px solid #facc15; }
-.red { border-left: 4px solid #ef4444; }
-
-/* TABLA */
-.table-box {
-  background: #111827;
-  margin: 20px;
-  padding: 20px;
+  margin-top: 20px;
+  background: var(--surface2);
+  padding: 15px;
   border-radius: 10px;
 }
 
-table {
-  width: 100%;
-}
+.fleet-table { width: 100%; }
 
-td, th {
+.fleet-table td, th {
   padding: 10px;
   text-align: center;
 }
 
-.alto { color: red; }
-.medio { color: orange; }
-.bajo { color: green; }
+.chat-messages {
+  height: 300px;
+  overflow-y: auto;
+}
 
-/* CHAT */
-.chat {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 250px;
-  height: 100%;
-  background: #020617;
-  padding: 20px;
+.chat-input-area {
+  display: flex;
+  gap: 10px;
 }
