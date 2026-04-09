@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0f19;
+  color: white;
+}
+
+/* LAYOUT */
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  height: 100vh;
+}
+
+/* TOP */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
+}
+
+.status {
+  color: #22c55e;
+}
+
+/* LEFT */
+.left {
+  flex: 3;
+  padding: 20px;
+}
+
+/* KPIs */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.green { border-left: 4px solid #22c55e; }
+.yellow { border-left: 4px solid #facc15; }
+.red { border-left: 4px solid #ef4444; }
+
+/* TABLE */
+.table {
+  margin-top: 20px;
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+}
+
+td, th {
+  padding: 10px;
+  text-align: center;
+}
+
+tr:hover {
+  background: #1e293b;
+}
+
+/* RIESGO */
+.alto { color: #ef4444; }
+.medio { color: #facc15; }
+.bajo { color: #22c55e; }
+
+/* CHAT */
+.chat {
+  flex: 1;
+  border-left: 1px solid #1e293b;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#chatBox {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.msg {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.input {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  background: #0f172a;
+  border: none;
+  color: white;
+}
+
+button {
+  background: #6366f1;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}

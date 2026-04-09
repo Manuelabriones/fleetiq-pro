@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FleetIQ PRO</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- TOP -->
+  <header class="topbar">
+    <h2>FleetIQ <span>/ Centro de control</span></h2>
+    <div class="status">🟢 EN VIVO</div>
+  </header>
+
+  <div class="main">
+
+    <!-- LEFT -->
+    <div class="left">
+
+      <!-- KPIs -->
+      <div class="kpis">
+        <div class="card"><h2>32</h2><p>Unidades</p></div>
+        <div class="card green"><h2>24</h2><p>Operativas</p></div>
+        <div class="card yellow"><h2>5</h2><p>Revisión</p></div>
+        <div class="card red"><h2>3</h2><p>Urgente</p></div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table">
+        <h3>Ranking de riesgo</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Riesgo</th>
+              <th>Score</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- RIGHT CHAT -->
+    <div class="chat">
+      <h3>🤖 Analista IA</h3>
+      <div id="chatBox"></div>
+
+      <div class="input">
+        <input id="input" placeholder="Pregunta..." />
+        <button onclick="enviar()">➤</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
