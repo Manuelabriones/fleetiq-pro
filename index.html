@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FleetIQ PRO</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>🚛 FleetIQ PRO</h1>
+  <span>Analista de mantenimiento predictivo</span>
+</header>
+
+<main class="container">
+
+  <!-- KPIs -->
+  <section class="kpis">
+    <div class="card"><h2>32</h2><p>Unidades</p></div>
+    <div class="card green"><h2>24</h2><p>Operativas</p></div>
+    <div class="card yellow"><h2>5</h2><p>Revisión</p></div>
+    <div class="card red"><h2>3</h2><p>Urgente</p></div>
+  </section>
+
+  <!-- TABLA -->
+  <section class="table-section">
+    <h3>Ranking inteligente de riesgo</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Unidad</th>
+          <th>Riesgo</th>
+          <th>Score</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tabla"></tbody>
+    </table>
+  </section>
+
+  <!-- PANEL IA -->
+  <section class="ia-panel">
+    <h3>🤖 Analista IA</h3>
+    <div id="respuesta">
+      Haz clic en una unidad para obtener análisis predictivo
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
