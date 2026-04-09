@@ -1,19 +1,8 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0b0f19;
+  font-family: Arial;
+  background: #0b1220;
   color: white;
-}
-
-/* LAYOUT */
-.app {
-  display: flex;
-  flex-direction: column;
-}
-
-.main {
-  display: flex;
-  height: 100vh;
 }
 
 /* TOP */
@@ -22,17 +11,6 @@ body {
   justify-content: space-between;
   padding: 15px;
   background: #0f172a;
-  border-bottom: 1px solid #1e293b;
-}
-
-.status {
-  color: #22c55e;
-}
-
-/* LEFT */
-.left {
-  flex: 3;
-  padding: 20px;
 }
 
 /* KPIs */
@@ -40,24 +18,26 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+  padding: 20px;
 }
 
 .card {
   background: #111827;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 10px;
+  text-align: center;
 }
 
 .green { border-left: 4px solid #22c55e; }
 .yellow { border-left: 4px solid #facc15; }
 .red { border-left: 4px solid #ef4444; }
 
-/* TABLE */
-.table {
-  margin-top: 20px;
+/* TABLA */
+.table-box {
   background: #111827;
+  margin: 20px;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 table {
@@ -69,142 +49,17 @@ td, th {
   text-align: center;
 }
 
-tr:hover {
-  background: #1e293b;
-}
-
-/* RIESGO */
-.alto { color: #ef4444; }
-.medio { color: #facc15; }
-.bajo { color: #22c55e; }
+.alto { color: red; }
+.medio { color: orange; }
+.bajo { color: green; }
 
 /* CHAT */
 .chat {
-  flex: 1;
-  border-left: 1px solid #1e293b;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-#chatBox {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.msg {
-  background: #1e293b;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.input {
-  display: flex;
-  gap: 10px;
-}
-
-input {
-  flex: 1;
-  padding: 10px;
-  background: #0f172a;
-  border: none;
-  color: white;
-}
-
-button {
-  background: #6366f1;
-  border: none;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f172a, #020617);
-  color: white;
-}
-
-/* TOP */
-.topbar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 250px;
+  height: 100%;
   background: #020617;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #1f2937;
-}
-
-/* LAYOUT */
-.container {
   padding: 20px;
-}
-
-/* KPIs */
-.kpis {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-}
-
-.card {
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  transition: transform .2s;
-}
-
-.card:hover {
-  transform: scale(1.05);
-}
-
-.green { border-left: 5px solid #22c55e; }
-.yellow { border-left: 5px solid #facc15; }
-.red { border-left: 5px solid #ef4444; }
-
-/* TABLE */
-.table-section {
-  margin-top: 25px;
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-table {
-  width: 100%;
-}
-
-th {
-  color: #94a3b8;
-}
-
-td, th {
-  padding: 12px;
-  text-align: center;
-}
-
-tr:hover {
-  background: #334155;
-  cursor: pointer;
-}
-
-/* RISK */
-.riesgo {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: bold;
-}
-
-.bajo { background: #14532d; }
-.medio { background: #78350f; }
-.alto { background: #7f1d1d; }
-
-/* PANEL IA */
-.ia-panel {
-  margin-top: 25px;
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
-  line-height: 1.6;
-}
 }

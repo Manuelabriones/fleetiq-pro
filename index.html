@@ -1,97 +1,30 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>FleetIQ PRO</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<div class="app">
-
-  <!-- TOP -->
-  <header class="topbar">
-    <h2>FleetIQ <span>/ Centro de control</span></h2>
-    <div class="status">🟢 EN VIVO</div>
-  </header>
-
-  <div class="main">
-
-    <!-- LEFT -->
-    <div class="left">
-
-      <!-- KPIs -->
-      <div class="kpis">
-        <div class="card"><h2>32</h2><p>Unidades</p></div>
-        <div class="card green"><h2>24</h2><p>Operativas</p></div>
-        <div class="card yellow"><h2>5</h2><p>Revisión</p></div>
-        <div class="card red"><h2>3</h2><p>Urgente</p></div>
-      </div>
-
-      <!-- TABLA -->
-      <div class="table">
-        <h3>Ranking de riesgo</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Unidad</th>
-              <th>Riesgo</th>
-              <th>Score</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="tabla"></tbody>
-        </table>
-      </div>
-
-    </div>
-
-    <!-- RIGHT CHAT -->
-    <div class="chat">
-      <h3>🤖 Analista IA</h3>
-      <div id="chatBox"></div>
-
-      <div class="input">
-        <input id="input" placeholder="Pregunta..." />
-        <button onclick="enviar()">➤</button>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<script src="script.js"></script>
-</body>
-=======
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>FleetIQ PRO</title>
+  <title>FleetIQ</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="topbar">
-  <h1>🚛 FleetIQ PRO</h1>
-  <span>Analista de mantenimiento predictivo</span>
+  <h2>FleetIQ <span>/ Centro de control</span></h2>
+  <div class="live">🟢 EN VIVO</div>
 </header>
 
-<main class="container">
+<div class="container">
 
   <!-- KPIs -->
-  <section class="kpis">
-    <div class="card"><h2>32</h2><p>Unidades</p></div>
-    <div class="card green"><h2>24</h2><p>Operativas</p></div>
-    <div class="card yellow"><h2>5</h2><p>Revisión</p></div>
-    <div class="card red"><h2>3</h2><p>Urgente</p></div>
-  </section>
+  <div class="kpis">
+    <div class="card">32<br><span>Unidades</span></div>
+    <div class="card green">24<br><span>Operativas</span></div>
+    <div class="card yellow">5<br><span>Revisión</span></div>
+    <div class="card red">3<br><span>Urgente</span></div>
+  </div>
 
   <!-- TABLA -->
-  <section class="table-section">
-    <h3>Ranking inteligente de riesgo</h3>
+  <div class="table-box">
+    <h3>Ranking de riesgo</h3>
     <table>
       <thead>
         <tr>
@@ -103,19 +36,16 @@
       </thead>
       <tbody id="tabla"></tbody>
     </table>
-  </section>
+  </div>
 
-  <!-- PANEL IA -->
-  <section class="ia-panel">
-    <h3>🤖 Analista IA</h3>
-    <div id="respuesta">
-      Haz clic en una unidad para obtener análisis predictivo
-    </div>
-  </section>
+</div>
 
-</main>
+<!-- CHAT -->
+<div class="chat">
+  <h3>🤖 Analista IA</h3>
+  <div id="chatBox"></div>
+</div>
 
 <script src="script.js"></script>
 </body>
->>>>>>> 60a41569d421c3348f8bbcd4f0e1d4c61f476e0e
 </html>
