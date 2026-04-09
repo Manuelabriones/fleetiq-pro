@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -118,4 +119,94 @@ button {
   color: white;
   padding: 10px;
   cursor: pointer;
+=======
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+/* TOP */
+.topbar {
+  background: #020617;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #1f2937;
+}
+
+/* LAYOUT */
+.container {
+  padding: 20px;
+}
+
+/* KPIs */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform .2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.green { border-left: 5px solid #22c55e; }
+.yellow { border-left: 5px solid #facc15; }
+.red { border-left: 5px solid #ef4444; }
+
+/* TABLE */
+.table-section {
+  margin-top: 25px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  color: #94a3b8;
+}
+
+td, th {
+  padding: 12px;
+  text-align: center;
+}
+
+tr:hover {
+  background: #334155;
+  cursor: pointer;
+}
+
+/* RISK */
+.riesgo {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.bajo { background: #14532d; }
+.medio { background: #78350f; }
+.alto { background: #7f1d1d; }
+
+/* PANEL IA */
+.ia-panel {
+  margin-top: 25px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  line-height: 1.6;
+>>>>>>> 60a41569d421c3348f8bbcd4f0e1d4c61f476e0e
 }
