@@ -1,4 +1,4 @@
-// DATOS INICIALES
+// DATOS INICIALES COMPLETOS
 const FLEET = [
   { id:"U-01", model:"Freightliner Cascadia", km:97, dtc:2, dias:45, conduccion:"agresiva", ruta:"carretera", score:88 },
   { id:"U-07", model:"Kenworth T680", km:103, dtc:3, dias:62, conduccion:"agresiva", ruta:"mixta", score:94 },
@@ -10,10 +10,13 @@ const FLEET = [
   { id:"U-25", model:"Kenworth W900", km:69, dtc:0, dias:19, conduccion:"normal", ruta:"carretera", score:35 },
 ];
 
+// AGENDA ACTUALIZADA CON TODOS LOS ELEMENTOS DE LA IMAGEN
 const AGENDA = [
   { day:"HOY", unit:"U-07", reason:"DTC activos P0300, P0171 · km excedido", risk:"red" },
   { day:"HOY", unit:"U-01", reason:"62 días sin servicio · conducción agresiva", risk:"red" },
   { day:"MIÉ", unit:"U-14", reason:"DTC histórico · km al 91%", risk:"amber" },
+  { day:"JUE", unit:"U-18", reason:"Revisión preventiva programada", risk:"amber" },
+  { day:"VIE", unit:"U-22", reason:"Servicio de rutina · km al 78%", risk:"amber" },
 ];
 
 // LÓGICA DE RIESGO
@@ -48,7 +51,7 @@ function renderFleet() {
   }).join("");
 }
 
-// RENDERIZADO DE AGENDA CORREGIDO (Para el diseño de filas de la imagen)
+// RENDERIZADO DE AGENDA (Muestra todas las tarjetas de la lista)
 function renderAgenda() {
   const container = document.getElementById("agendaList");
   if(!container) return;
