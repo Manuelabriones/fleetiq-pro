@@ -1,79 +1,116 @@
-:root {
-  --bg: #0a0c0f;
-  --surface: #111318;
-  --surface2: #181c22;
-  --border: rgba(255,255,255,0.07);
-  --text: #e8eaf0;
-  --muted: #6b7280;
-  --green: #22c55e;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --accent: #7c6fff;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetIQ · Centro de Control de Flota</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+    <div class="topbar">
+        <div class="logo">
+            <div class="logo-dot"></div>
+            FleetIQ
+            <span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:4px;">/ Centro de control</span>
+        </div>
+        <div class="topbar-right">
+            <div class="live-badge"><div class="live-dot"></div> EN VIVO</div>
+            <span id="clock" class="mono" style="font-size:12px;"></span>
+            <span>32 unidades activas</span>
+        </div>
+    </div>
 
-body {
-  margin: 0;
-  font-family: 'Syne', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+    <div class="main">
+        <div class="left">
+            <div class="kpi-grid">
+                <div class="kpi">
+                    <div class="kpi-val" style="color:var(--text);">32</div>
+                    <div class="kpi-label">Unidades totales</div>
+                    <div class="kpi-delta delta-up">↑ 2 vs ayer</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-val" style="color:var(--green);">24</div>
+                    <div class="kpi-label">Operativas · riesgo bajo</div>
+                    <div class="kpi-delta delta-up">75% disponibilidad</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-val" style="color:var(--amber);">5</div>
+                    <div class="kpi-label">Requieren revisión</div>
+                    <div class="kpi-delta delta-down">↑ 2 vs ayer</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-val" style="color:var(--red);">3</div>
+                    <div class="kpi-label">Intervención urgente</div>
+                    <div class="kpi-delta delta-down">↑ 1 vs ayer</div>
+                </div>
+            </div>
 
-.app { display: flex; flex-direction: column; }
+            <div class="ai-brief">
+                <div class="ai-brief-header">
+                    <div class="ai-icon">✦</div>
+                    <div>
+                        <div class="ai-brief-title">ANALISTA IA · Resumen del día</div>
+                        <div class="ai-brief-sub" id="brief-time">Generado hoy a las 06:00 AM</div>
+                    </div>
+                    <button class="refresh-btn" id="refreshBriefBtn" onclick="generateBrief()" style="margin-left:auto;">↻ Actualizar</button>
+                </div>
+                <div class="ai-text" id="briefText">
+                    Cargando análisis de la flota...
+                </div>
+            </div>
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  background: var(--surface);
-}
+            <div class="card" style="padding: 18px 0;">
+                <div class="section-row" style="padding: 0 20px;">
+                    <div class="card-title">Ranking de riesgo · Flota completa</div>
+                    <span style="font-size:11px;color:var(--muted);">Haz clic en una unidad para consultarla</span>
+                </div>
+                <table class="fleet-table">
+                    <thead>
+                        <tr>
+                            <th>Unidad</th>
+                            <th>Riesgo</th>
+                            <th>Score</th>
+                            <th>Km restantes</th>
+                            <th>Último servicio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fleetBody"></tbody>
+                </table>
+            </div>
 
-.logo { display: flex; gap: 8px; align-items: center; }
-.logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
-.logo-sub { color: var(--muted); font-size: 12px; }
+            <div class="card">
+                <div class="card-title">Agenda sugerida · Próximas intervenciones</div>
+                <div class="agenda-list" id="agendaList"></div>
+            </div>
+        </div>
 
-.main { display: flex; }
-
-.left { flex: 3; padding: 20px; }
-.right { flex: 1; background: var(--surface); padding: 20px; }
-
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.kpi {
-  background: var(--surface2);
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.kpi-val { font-size: 22px; }
-
-.green { color: var(--green); }
-.amber { color: var(--amber); }
-.red { color: var(--red); }
-
-.card {
-  margin-top: 20px;
-  background: var(--surface2);
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.fleet-table { width: 100%; }
-
-.fleet-table td, th {
-  padding: 10px;
-  text-align: center;
-}
-
-.chat-messages {
-  height: 300px;
-  overflow-y: auto;
-}
-
-.chat-input-area {
-  display: flex;
-  gap: 10px;
-}
+        <div class="right">
+            <div class="chat-header">
+                <div class="chat-avatar">✦</div>
+                <div>
+                    <div class="chat-name">Analista FleetIQ</div>
+                    <div class="chat-status">● Activo · listo para analizar</div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="suggestions" id="suggestions">
+                <div class="sug-chip" onclick="askSuggestion(this)">¿Qué unidades intervenir hoy?</div>
+                <div class="sug-chip" onclick="askSuggestion(this)">¿Cuál es el riesgo de la unidad 07?</div>
+                <div class="sug-chip" onclick="askSuggestion(this)">Resumen ejecutivo de la flota</div>
+                <div class="sug-chip" onclick="askSuggestion(this)">¿Qué causó las fallas recientes?</div>
+            </div>
+            <div class="chat-input-area">
+                <textarea class="chat-input" id="chatInput" placeholder="Pregunta sobre cualquier unidad..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
