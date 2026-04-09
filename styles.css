@@ -1,116 +1,94 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FleetIQ · Centro de Control de Flota</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<div class="app">
-    <div class="topbar">
-        <div class="logo">
-            <div class="logo-dot"></div>
-            FleetIQ
-            <span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:4px;">/ Centro de control</span>
-        </div>
-        <div class="topbar-right">
-            <div class="live-badge"><div class="live-dot"></div> EN VIVO</div>
-            <span id="clock" class="mono" style="font-size:12px;"></span>
-            <span>32 unidades activas</span>
-        </div>
-    </div>
+:root {
+  --bg: #0a0c0f;
+  --surface: #111318;
+  --surface2: #181c22;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8eaf0;
+  --muted: #6b7280;
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.12);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.12);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.12);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.10);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.10);
+  --accent: #7c6fff;
+}
 
-    <div class="main">
-        <div class="left">
-            <div class="kpi-grid">
-                <div class="kpi">
-                    <div class="kpi-val" style="color:var(--text);">32</div>
-                    <div class="kpi-label">Unidades totales</div>
-                    <div class="kpi-delta delta-up">↑ 2 vs ayer</div>
-                </div>
-                <div class="kpi">
-                    <div class="kpi-val" style="color:var(--green);">24</div>
-                    <div class="kpi-label">Operativas · riesgo bajo</div>
-                    <div class="kpi-delta delta-up">75% disponibilidad</div>
-                </div>
-                <div class="kpi">
-                    <div class="kpi-val" style="color:var(--amber);">5</div>
-                    <div class="kpi-label">Requieren revisión</div>
-                    <div class="kpi-delta delta-down">↑ 2 vs ayer</div>
-                </div>
-                <div class="kpi">
-                    <div class="kpi-val" style="color:var(--red);">3</div>
-                    <div class="kpi-label">Intervención urgente</div>
-                    <div class="kpi-delta delta-down">↑ 1 vs ayer</div>
-                </div>
-            </div>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; }
+code, .mono { font-family: 'DM Mono', monospace; }
 
-            <div class="ai-brief">
-                <div class="ai-brief-header">
-                    <div class="ai-icon">✦</div>
-                    <div>
-                        <div class="ai-brief-title">ANALISTA IA · Resumen del día</div>
-                        <div class="ai-brief-sub" id="brief-time">Generado hoy a las 06:00 AM</div>
-                    </div>
-                    <button class="refresh-btn" id="refreshBriefBtn" onclick="generateBrief()" style="margin-left:auto;">↻ Actualizar</button>
-                </div>
-                <div class="ai-text" id="briefText">
-                    Cargando análisis de la flota...
-                </div>
-            </div>
+/* LAYOUT */
+.app { display: grid; grid-template-rows: 56px 1fr; min-height: 100vh; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.logo { font-size: 15px; font-weight: 700; letter-spacing: .04em; display: flex; align-items: center; gap: 8px; }
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.topbar-right { display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--muted); }
+.live-badge { display: flex; align-items: center; gap: 5px; background: var(--green-dim); color: var(--green); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-            <div class="card" style="padding: 18px 0;">
-                <div class="section-row" style="padding: 0 20px;">
-                    <div class="card-title">Ranking de riesgo · Flota completa</div>
-                    <span style="font-size:11px;color:var(--muted);">Haz clic en una unidad para consultarla</span>
-                </div>
-                <table class="fleet-table">
-                    <thead>
-                        <tr>
-                            <th>Unidad</th>
-                            <th>Riesgo</th>
-                            <th>Score</th>
-                            <th>Km restantes</th>
-                            <th>Último servicio</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fleetBody"></tbody>
-                </table>
-            </div>
+.main { display: grid; grid-template-columns: 1fr 360px; height: calc(100vh - 56px); overflow: hidden; }
+.left { overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.right { border-left: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); }
 
-            <div class="card">
-                <div class="card-title">Agenda sugerida · Próximas intervenciones</div>
-                <div class="agenda-list" id="agendaList"></div>
-            </div>
-        </div>
+/* CARDS & KPIs */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+.card-title { font-size: 11px; font-weight: 500; letter-spacing: .08em; color: var(--muted); margin-bottom: 14px; text-transform: uppercase; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kpi { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.kpi-val { font-size: 26px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.kpi-label { font-size: 11px; color: var(--muted); }
+.kpi-delta { font-size: 11px; margin-top: 6px; }
+.delta-up { color: var(--green); }
+.delta-down { color: var(--red); }
 
-        <div class="right">
-            <div class="chat-header">
-                <div class="chat-avatar">✦</div>
-                <div>
-                    <div class="chat-name">Analista FleetIQ</div>
-                    <div class="chat-status">● Activo · listo para analizar</div>
-                </div>
-            </div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="suggestions" id="suggestions">
-                <div class="sug-chip" onclick="askSuggestion(this)">¿Qué unidades intervenir hoy?</div>
-                <div class="sug-chip" onclick="askSuggestion(this)">¿Cuál es el riesgo de la unidad 07?</div>
-                <div class="sug-chip" onclick="askSuggestion(this)">Resumen ejecutivo de la flota</div>
-                <div class="sug-chip" onclick="askSuggestion(this)">¿Qué causó las fallas recientes?</div>
-            </div>
-            <div class="chat-input-area">
-                <textarea class="chat-input" id="chatInput" placeholder="Pregunta sobre cualquier unidad..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="script.js"></script>
-</body>
-</html>
+/* TABLES */
+.fleet-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.fleet-table th { font-size: 10px; font-weight: 500; letter-spacing: .07em; color: var(--muted); text-transform: uppercase; text-align: left; padding: 0 12px 10px; border-bottom: 1px solid var(--border); }
+.fleet-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.fleet-table tr:hover td { background: rgba(255,255,255,.03); cursor: pointer; }
+.fleet-table tr.selected td { background: var(--blue-dim); }
+
+.risk-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; font-family: 'DM Mono', monospace; }
+.risk-green { background: var(--green-dim); color: var(--green); }
+.risk-amber { background: var(--amber-dim); color: var(--amber); }
+.risk-red { background: var(--red-dim); color: var(--red); }
+.risk-dot { width: 5px; height: 5px; border-radius: 50%; }
+.risk-dot-green { background: var(--green); }
+.risk-dot-amber { background: var(--amber); }
+.risk-dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+
+.score-bar { width: 80px; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.score-fill { height: 100%; border-radius: 2px; transition: width .3s; }
+
+/* AI BRIEF */
+.ai-brief { background: linear-gradient(135deg, rgba(124,111,255,.08), rgba(96,165,250,.04)); border: 1px solid rgba(124,111,255,.2); border-radius: 12px; padding: 18px 20px; }
+.ai-brief-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.ai-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--purple-dim); border: 1px solid rgba(167,139,250,.25); display: flex; align-items: center; justify-content: center; }
+.ai-brief-title { font-size: 12px; font-weight: 500; color: var(--purple); }
+.ai-text { font-size: 13px; line-height: 1.65; }
+
+/* CHAT */
+.chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.msg { max-width: 88%; }
+.msg-ai { align-self: flex-start; }
+.msg-user { align-self: flex-end; }
+.msg-bubble { padding: 10px 13px; border-radius: 12px; font-size: 13px; }
+.msg-ai .msg-bubble { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px 12px 12px 12px; }
+.msg-user .msg-bubble { background: var(--accent); color: #fff; border-radius: 12px 4px 12px 12px; }
+.msg-time { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+.chat-input-area { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+.chat-input { flex: 1; background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; padding: 10px 14px; color: var(--text); resize: none; outline: none; }
+.send-btn { width: 36px; height: 36px; border-radius: 9px; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+.sug-chip { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border2); color: var(--muted); cursor: pointer; transition: 0.2s; }
+.sug-chip:hover { border-color: var(--accent); color: var(--text); }
+
+.unit-highlight { background: var(--blue-dim); color: var(--blue); padding: 1px 7px; border-radius: 6px; font-family: 'DM Mono'; }
