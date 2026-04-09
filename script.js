@@ -23,15 +23,17 @@ function riskLevel(score) {
   return { label:"Bajo", cls:"risk-green", dot:"risk-dot-green", action:"Mantener", actionCls:"action-green" };
 }
 
-// RENDERIZADO
+// RENDERIZADO DE TABLA
 function renderFleet() {
   const sorted = [...FLEET].sort((a,b) => b.score - a.score);
   const tbody = document.getElementById("fleetBody");
+  if(!tbody) return;
+  
   tbody.innerHTML = sorted.map(u => {
     const r = riskLevel(u.score);
-    const fill = u.score >= 75 ? "#ef4444" : u.score >= 45 ? "#f59e0b" : "#22c55e";
+    const fill = u.score >= 75 ? "var(--red)" : u.score >= 45 ? "var(--amber)" : "var(--green)";
     return `<tr onclick="selectUnit('${u.id}')" id="row-${u.id.replace('-','')}">
-      <td><span class="mono">${u.id}</span><br><span style="font-size:11px;color:var(--muted);">${u.model}</span></td>
+      <td><span class="mono" style="font-weight:700;">${u.id}</span><br><span style="font-size:11px;color:var(--muted);">${u.model}</span></td>
       <td><span class="risk-pill ${r.cls}"><span class="risk-dot ${r.dot}"></span>${r.label}</span></td>
       <td>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -39,28 +41,43 @@ function renderFleet() {
           <span class="mono" style="font-size:12px;">${u.score}</span>
         </div>
       </td>
-      <td><span class="mono">${100 - u.km}%</span></td>
-      <td><span>${u.dias}d atrás</span></td>
+      <td><span class="mono">${100 - u.km < 0 ? 0 : 100 - u.km}%</span></td>
+      <td><span style="font-size:12px;">${u.dias}d atrás</span></td>
       <td><span class="action-tag ${r.actionCls}">${r.action}</span></td>
     </tr>`;
   }).join("");
 }
 
+// RENDERIZADO DE AGENDA CORREGIDO (Para el diseño de filas de la imagen)
 function renderAgenda() {
-  document.getElementById("agendaList").innerHTML = AGENDA.map(a => `
-    <div class="agenda-item">
-      <div class="agenda-day">${a.day}</div>
-      <div style="width:5px;height:5px;border-radius:50%;background:${a.risk==='red'?'var(--red)':'var(--amber)'};"></div>
-      <div class="agenda-unit">${a.unit}</div>
-      <div class="agenda-reason">${a.reason}</div>
-    </div>`).join("");
+  const container = document.getElementById("agendaList");
+  if(!container) return;
+
+  container.innerHTML = AGENDA.map(a => {
+    const color = a.risk === 'red' ? 'var(--red)' : 'var(--amber)';
+    return `
+      <div class="agenda-item">
+        <div class="agenda-day">${a.day}</div>
+        <div class="agenda-dot" style="background: ${color}; box-shadow: 0 0 8px ${color};"></div>
+        <div class="agenda-unit">${a.unit}</div>
+        <div class="agenda-reason">${a.reason}</div>
+      </div>`;
+  }).join("");
 }
 
-// CHAT & IA
-const chatHistory = [];
+// BRIEF IA (Resumen)
+function generateBrief() {
+  const brief = document.getElementById("briefText");
+  if(!brief) return;
+  brief.innerHTML = `Hay <span style="color:var(--red);font-weight:700;">3 unidades en riesgo alto</span> (U-01, U-07, U-14). 
+  Se recomienda priorizar la <span class="unit-highlight">U-07</span> por múltiples DTCs críticos. 
+  La disponibilidad de la flota se mantiene en <span style="color:var(--green);font-weight:700;">75%</span>.`;
+}
 
+// CHAT & LÓGICA DE MENSAJERÍA
 function addMessage(role, text) {
   const msgs = document.getElementById("chatMessages");
+  if(!msgs) return;
   const div = document.createElement("div");
   div.className = `msg msg-${role}`;
   const now = new Date().toLocaleTimeString("es-MX", {hour:"2-digit",minute:"2-digit"});
@@ -69,39 +86,62 @@ function addMessage(role, text) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-async function callClaude(userMsg) {
-  addMessage("ai", "Analizando datos de la unidad seleccionada...");
-  // Aquí integrarías tu llamada real a la API
-}
-
 function sendMessage() {
   const input = document.getElementById("chatInput");
   const text = input.value.trim();
   if (!text) return;
+  
   addMessage("user", text);
   input.value = "";
-  callClaude(text);
+  input.style.height = "auto";
+
+  // Respuesta simulada
+  setTimeout(() => {
+    let reply = "He analizado los datos. ¿Deseas que genere una orden de servicio para estas unidades?";
+    if(text.toLowerCase().includes("u-07")) reply = "La unidad **U-07** reporta fallas en el sistema de inyección (P0300). Riesgo crítico detectado.";
+    addMessage("ai", reply);
+  }, 700);
 }
 
+// UTILIDADES
 function selectUnit(id) {
-  const unit = FLEET.find(u => u.id === id);
-  if (unit) {
-    document.getElementById("chatInput").value = `Analiza la unidad ${id}`;
-    sendMessage();
-  }
+  const input = document.getElementById("chatInput");
+  input.value = `Analiza la unidad ${id}`;
+  sendMessage();
 }
 
 function updateClock() {
-  document.getElementById("clock").textContent = new Date().toLocaleTimeString("es-MX");
+  const clock = document.getElementById("clock");
+  if(clock) clock.textContent = new Date().toLocaleTimeString("es-MX");
 }
 
-function handleKey(e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
-function autoResize(el) { el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight, 100) + "px"; }
-function askSuggestion(el) { document.getElementById("chatInput").value = el.textContent; sendMessage(); }
+function handleKey(e) { 
+  if (e.key === "Enter" && !e.shiftKey) { 
+    e.preventDefault(); 
+    sendMessage(); 
+  } 
+}
 
-// INICIALIZACIÓN
-renderFleet();
-renderAgenda();
-updateClock();
-setInterval(updateClock, 1000);
-addMessage("ai", "Sistema listo. Hoy hay <strong>3 unidades críticas</strong>. ¿Por dónde empezamos?");
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 100) + "px";
+}
+
+function askSuggestion(el) {
+  document.getElementById("chatInput").value = el.textContent;
+  sendMessage();
+}
+
+// INICIALIZACIÓN AL CARGAR
+window.onload = () => {
+  renderFleet();
+  renderAgenda();
+  generateBrief();
+  updateClock();
+  setInterval(updateClock, 1000);
+  
+  // Mensaje de bienvenida
+  setTimeout(() => {
+    addMessage("ai", "Sistema listo. Hoy hay <strong>3 unidades críticas</strong>. ¿Por dónde empezamos?");
+  }, 500);
+};

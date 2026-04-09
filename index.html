@@ -77,13 +77,15 @@
                             <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="fleetBody"></tbody>
+                    <tbody id="fleetBody">
+                        </tbody>
                 </table>
             </div>
 
             <div class="card">
                 <div class="card-title">Agenda sugerida · Próximas intervenciones</div>
-                <div class="agenda-list" id="agendaList"></div>
+                <div class="agenda-list" id="agendaList">
+                    </div>
             </div>
         </div>
 
@@ -95,13 +97,17 @@
                     <div class="chat-status">● Activo · listo para analizar</div>
                 </div>
             </div>
-            <div class="chat-messages" id="chatMessages"></div>
+            
+            <div class="chat-messages" id="chatMessages">
+                </div>
+
             <div class="suggestions" id="suggestions">
                 <div class="sug-chip" onclick="askSuggestion(this)">¿Qué unidades intervenir hoy?</div>
                 <div class="sug-chip" onclick="askSuggestion(this)">¿Cuál es el riesgo de la unidad 07?</div>
                 <div class="sug-chip" onclick="askSuggestion(this)">Resumen ejecutivo de la flota</div>
                 <div class="sug-chip" onclick="askSuggestion(this)">¿Qué causó las fallas recientes?</div>
             </div>
+
             <div class="chat-input-area">
                 <textarea class="chat-input" id="chatInput" placeholder="Pregunta sobre cualquier unidad..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()">
